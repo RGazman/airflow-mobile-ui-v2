@@ -1,0 +1,51 @@
+airflow-mobile-ui-v2
+Copyright (c) 2026 Airflow Mobile UI v2 contributors
+
+This product is licensed under the GNU Affero General Public License,
+version 3.0 (AGPL-3.0-only). See the LICENSE file for the full text.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+General Public License for more details.
+
+=======================================================================
+
+Trademarks
+
+Apache Airflow, Airflow, and the Airflow pinwheel logo are trademarks of
+the Apache Software Foundation (ASF). This project is an UNOFFICIAL,
+independent client for Apache Airflow and is not affiliated with,
+sponsored by, or endorsed by the ASF. No ASF logos or branding assets are
+used in this project. Any references to Apache Airflow are nominative
+only.
+
+=======================================================================
+
+Third-party components
+
+This project is a standalone client application: it communicates with an
+Apache Airflow instance over HTTP (stable REST API v1 and documented
+internal web endpoints) and does NOT include, copy, or link any Apache
+Airflow source code or assets.
+
+Runtime and build dependencies are listed in package.json and are
+distributed under their own permissive licenses (MIT / BSD / ISC /
+Apache-2.0 — see each package's license in node_modules). Notable ones:
+
+  - React, React DOM, React Router (MIT) — Meta Platforms, Inc. and contributors
+  - axios (MIT) — Matt Zabriskie and contributors
+  - @chakra-ui/react, @emotion/react, @emotion/styled (MIT)
+  - @tanstack/react-query (MIT) — Tanner Linsley
+  - date-fns (MIT), humps (MIT), zod (MIT), react-hook-form (MIT),
+    framer-motion (MIT), react-icons (MIT), @hookform/resolvers (MIT)
+  - Vite (MIT) — Evan You and contributors; TypeScript (Apache-2.0) — Microsoft
+
+If icons or other assets from the Apache Airflow distribution are added
+in the future, they remain licensed under the Apache License, Version 2.0
+(Copyright The Apache Software Foundation), and their use must retain
+attribution here.
