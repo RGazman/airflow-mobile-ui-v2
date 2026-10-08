@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airflow-mobile
+  namespace: airflow
+  labels:
+    app.kubernetes.io/name: airflow-mobile
+    app.kubernetes.io/part-of: airflow-mobile
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: airflow-mobile
+  ports:
+    - name: http
+      port: 5173
+      targetPort: http

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-mobile
+  namespace: airflow
+  labels:
+    app.kubernetes.io/name: airflow-mobile
+    app.kubernetes.io/part-of: airflow-mobile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: airflow-mobile
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: airflow-mobile
+        app.kubernetes.io/part-of: airflow-mobile
+    spec:
+      containers:
+        - name: airflow-mobile
+          image: registry.example.com/<org>/airflow-mobile-ui-v2:0.1.0   # TODO: ваш registry/тег
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5173
+          envFrom:
+            - configMapRef:
+                name: airflow-mobile-env
+          resources: {}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      # При необходимости — кастомные DNS кластера:
+      # dnsPolicy: None
+      # dnsConfig:
+      #   nameservers:
+      #     - 10.0.0.10   # TODO: DNS кластера

@@ -67,6 +67,13 @@ Checks: `npm run build`, `npm run lint`.
 
 Production: static files from `dist/` behind a reverse proxy (nginx) that proxies `/api`, `/clear`, `/success`, `/failed`, `/confirm`, `/dagrun_*`, `/last_dagruns`, `/object`, `/static`, `/login`, `/logout` to Airflow.
 
+## Deployment (Docker / Kubernetes)
+
+- `Dockerfile` — dev image (Vite dev server): the Airflow config is injected at runtime via env (`VITE_AIRFLOW_API_URL`, `VITE_AIRFLOW_API_PREFIX`, `VITE_ALLOWED_HOSTS`) — no rebuild when switching instances.
+- `k8s/` — example manifests (kustomize): configmap, deployment, service, ingress. Hosts, registry and namespace are placeholders — replace with your own.
+- Behind an ingress: `VITE_ALLOWED_HOSTS` = frontend domain (otherwise Vite rejects requests), redirects keep https, `X-Forwarded-*` are stripped on the way to Airflow.
+- SSO (Keycloak/OIDC): `AIRFLOW__WEBSERVER__BASE_URL` = public Airflow URL, callback registered in the IdP, session cookie `SameSite=Lax`.
+
 ## Unstable web endpoints
 
 Actions go through internal endpoints (not REST v1): `POST /clear|/success|/failed` (form CSRF), `GET /confirm` (preview), `POST /dagrun_success|/dagrun_failed`, `POST /last_dagruns` (`X-CSRFToken` header), `GET /object/graph_data`, `GET /dags/{id}/grid` (CSRF). They are **not stable** across Airflow versions — re-check before upgrading.

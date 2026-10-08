@@ -1,0 +1,15 @@
+# Переменные окружения из .env (не секретные — URL и префикс API)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airflow-mobile-env
+  namespace: airflow
+  labels:
+    app.kubernetes.io/name: airflow-mobile
+    app.kubernetes.io/part-of: airflow-mobile
+data:
+  VITE_AIRFLOW_API_URL: "https://airflow.example.com"   # TODO: URL инстанса Airflow
+  VITE_AIRFLOW_API_PREFIX: "/api/v1"
+  # Домены, с которых доступен фронт (Host-заголовок за ingress).
+  # Без этого Vite отвечает "Blocked request. This host (...) is not allowed".
+  VITE_ALLOWED_HOSTS: "airflow-m.example.com"           # TODO: домен фронта

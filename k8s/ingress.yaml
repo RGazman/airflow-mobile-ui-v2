@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airflow-mobile
+  namespace: airflow
+  labels:
+    app.kubernetes.io/name: airflow-mobile
+    app.kubernetes.io/part-of: airflow-mobile
+  # annotations:
+  #   # При необходимости TLS через cert-manager:
+  #   cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  # Укажите класс вашего ingress-контроллера (nginx, traefik и т.д.)
+  ingressClassName: nginx
+  rules:
+    - host: airflow-m.example.com   # TODO: домен фронта
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: airflow-mobile
+                port:
+                  number: 5173
+  # tls:
+  #   - hosts:
+  #       - airflow-m.example.com
+  #     secretName: airflow-mobile-tls

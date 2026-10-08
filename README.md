@@ -67,6 +67,13 @@ npm run dev              # http://localhost:5173
 
 Production: статика из `dist/` за reverse proxy (nginx); проксирует `/api`, `/clear`, `/success`, `/failed`, `/confirm`, `/dagrun_*`, `/last_dagruns`, `/object`, `/static`, `/login`, `/logout` на Airflow.
 
+## Деплой (Docker / Kubernetes)
+
+- `Dockerfile` — dev-образ (Vite dev server): конфиг Airflow подставляется в рантайме через env (`VITE_AIRFLOW_API_URL`, `VITE_AIRFLOW_API_PREFIX`, `VITE_ALLOWED_HOSTS`) — пересборка при смене инстанса не нужна.
+- `k8s/` — пример манифестов (kustomize): configmap, deployment, service, ingress. Хосты, registry и namespace — плейсхолдеры, заменить на свои.
+- За ingress: `VITE_ALLOWED_HOSTS` = домен фронта (иначе Vite отклоняет запросы), редиректы сохраняют https, `X-Forwarded-*` срезаются на пути к Airflow.
+- SSO (Keycloak/OIDC): `AIRFLOW__WEBSERVER__BASE_URL` = публичный URL Airflow, callback зарегистрирован в IdP, сессионная кука `SameSite=Lax`.
+
 ## Нестабильные web-эндпоинты
 
 Действия идут через внутренние эндпоинты (не REST v1): `POST /clear|/success|/failed` (CSRF формой), `GET /confirm` (preview), `POST /dagrun_success|/dagrun_failed`, `POST /last_dagruns` (заголовок `X-CSRFToken`), `GET /object/graph_data`, `GET /dags/{id}/grid` (CSRF). Они **не стабильны** между версиями Airflow — перед обновлением перепроверить.
